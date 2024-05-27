@@ -7,9 +7,6 @@
       "activeTab",
       "scripting"
     ],
-    "background": {
-      "service_worker": "background.js"
-    },
     "action": {
       "default_popup": "popup.html",
       "default_icon": {
@@ -20,7 +17,10 @@
     },
     "content_scripts": [
       {
-        "matches": ["https://hm-painel.metodologiagb.com.br/*"],
+        "matches": [
+          "https://painel.metodologiagb.com.br/*",
+          "https://hm-painel.metodologiagb.com.br/*",
+          "https://qa-painel.metodologiagb.com.br/*"],
         "js": [
             "crypto-js.min.js",
             "contentScript.js",
@@ -29,6 +29,8 @@
       }
     ],
     "host_permissions": [
-      "https://hm-painel.metodologiagb.com.br/*"
+      "https://painel.metodologiagb.com.br/*",
+      "https://hm-painel.metodologiagb.com.br/*",
+      "https://qa-painel.metodologiagb.com.br/*"
     ]
   }

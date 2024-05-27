@@ -1,22 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8">  
   <title>MGB Permissão</title>
-  <link rel="stylesheet" href="toogleButton.css">
-  <style>
-    body { font-family: Arial, sans-serif; }
-    .content { padding: 10px; }
-  </style>
+  <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <h1>Permissão: </h1>
-  <h1 id="local-storage-value"></h1>
-  <hr/>
-  <label class="switch">
-    <input id="show-tag" type="checkbox">
-    <span class="slider"></span>
-  </label>
+  <header>
+    <div id="host-message">Verificando URL...</div>
+  </header>
+  <div class="container">
+    <div id="container-data">
+      <div class="form-group">
+        <label for="permission-value">Permissão:</label>
+        <div class="input-container">
+          <span id="permission-value"></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="show-tag">Exibir Tag:</label>
+        <div class="input-container">
+          <input id="show-tag" type="checkbox">
+        </div>
+      </div>
+    </div>
+  </div>
   <script src="popup.js"></script>
 </body>
 </html>

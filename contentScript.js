@@ -2,22 +2,34 @@ console.log('Content script loading');
 
 const cryptoKey = 'MgbCryptoKey';
 
-function addLocalStorageKey(newKey, value) {
+function setLocalStorageKey(newKey, value) {
     if (value !== '') {
         localStorage.setItem(newKey, value);
         console.log(`LocalStorage key ${newKey} set to ${value}`);
     }
   }
 
+function removeLocalStorageKey(keyName){
+    localStorage.removeItem(keyName);
+}
+
 function readLocalStorageValues() {
     const salt = localStorage.getItem('encryptedUser');
     const encryptedPermission = localStorage.getItem('encryptedPermission');
+
+    if (salt === null || salt === 'undefined' || encryptedPermission === null || encryptedPermission === 'undefined') {
+        removeLocalStorageKey("ShowTag");
+        removeLocalStorageKey("Permission");
+        createPermissionBanner();
+        return;
+    }
+
     const cryptoHelper = new CryptoHelper(cryptoKey, salt);
     const decryptedPermission = cryptoHelper.decrypt(localStorage.getItem('encryptedPermission'));
 
-    addLocalStorageKey("Permission", decryptedPermission)
+    setLocalStorageKey("Permission", decryptedPermission)
 
-    createEnvironmentBanner(decryptedPermission);
+    createPermissionBanner(decryptedPermission);
 }
 
 function onUrlChange(callback) {
@@ -54,7 +66,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.type === 'setShowTag') {
         const value = localStorage.getItem('ShowTag');
 
-        addLocalStorageKey("ShowTag", request.value)
+        setLocalStorageKey("ShowTag", request.value)
 
         readLocalStorageValues();
 
@@ -62,8 +74,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     }
 });
 
-function createEnvironmentBanner(stringValue) {
-    const bannerId = 'environment-banner';
+function createPermissionBanner(stringValue = "") {
+    const bannerId = 'permission-banner';
     let banner = document.getElementById(bannerId);
 
     if (!getShowTag()) {
