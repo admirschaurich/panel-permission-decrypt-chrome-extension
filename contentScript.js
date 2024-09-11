@@ -1,6 +1,15 @@
 console.log('Content script loading');
 
-const cryptoKey = 'MgbCryptoKey';
+let cryptoKey = function (){
+    let cryptoKeyStored = localStorage.getItem('cryptoKey');
+
+    if (!cryptoKeyStored) {
+        cryptoKeyStored = 'MgbCryptoKey';
+        setLocalStorageKey('cryptoKey', cryptoKeyStored);
+    }
+
+    return cryptoKeyStored;
+}
 
 function setLocalStorageKey(newKey, value) {
     if (value !== '') {
@@ -24,7 +33,7 @@ function readLocalStorageValues() {
         return;
     }
 
-    const cryptoHelper = new CryptoHelper(cryptoKey, salt);
+    const cryptoHelper = new CryptoHelper(cryptoKey(), salt);
     const decryptedPermission = cryptoHelper.decrypt(localStorage.getItem('encryptedPermission'));
 
     setLocalStorageKey("Permission", decryptedPermission)
