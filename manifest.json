@@ -22,6 +22,8 @@
       {
         "matches": [
           "https://painel.metodologiagb.com.br/*",
+          "http://localhost:3000/*",
+          "https://localhost:3000/*",
           "https://hm-painel.metodologiagb.com.br/*",
           "https://qa-painel.metodologiagb.com.br/*"],
         "js": [
@@ -33,6 +35,8 @@
     ],
     "host_permissions": [
       "https://painel.metodologiagb.com.br/*",
+      "http://localhost:3000/*",
+      "https://localhost:3000/*",
       "https://hm-painel.metodologiagb.com.br/*",
       "https://qa-painel.metodologiagb.com.br/*"
     ]

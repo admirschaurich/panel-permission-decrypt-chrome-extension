@@ -20,11 +20,11 @@ document.addEventListener('DOMContentLoaded', function () {
       chrome.tabs.sendMessage(tabs[0].id, { type: 'getShowTag' }, function (response) {
         if (showTagElement) {
           console.log("requestShowTagState recebeu do content o valor: ", response.value);
-          showTagElement.value = response && response.value ? 
-              response.value ? 
-                showTagElement.setAttribute("checked", "checked")
-              : showTagElement.removeAttribute("checked") 
-          : showTagElement.removeAttribute("checked");
+          showTagElement.value = response && response.value ?
+            response.value ?
+              showTagElement.setAttribute("checked", "checked")
+              : showTagElement.removeAttribute("checked")
+            : showTagElement.removeAttribute("checked");
         }
       });
     });
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     let tab = tabs[0];
     let url = new URL(tab.url);
     const regex = /^(.*-)?painel\.metodologiagb\.com\.br$/;
@@ -49,8 +49,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const containerDataElement = document.getElementById('container-data');
     const containerElement = document.querySelector('.container');
 
-    if (regex.test(url.hostname)) {
-      containerDataElement.style.visibility  = 'visible';
+    if ((regex.test(url.hostname) || (url.hostname === 'localhost' && url.port === '3000')) && tab.title === "Painel | MGB") {
+      containerDataElement.style.visibility = 'visible';
       hostMessageElement.innerHTML = `Painel Metodologia Gustavo Borges<br/>Ambiente ${getEnviroment(url.hostname)}`;
       containerElement.style.backgroundImage = "";
       containerElement.style.backgroundColor = '#009BDB';
@@ -58,9 +58,9 @@ document.addEventListener('DOMContentLoaded', function () {
       requestLocalStorageValue();
       requestShowTagState();
     }
-    else{
+    else {
       hostMessageElement.textContent = 'Extensão exclusiva para uso no painel Metodologia Gustavo Borges';
-      containerDataElement.style.visibility  = 'hidden';
+      containerDataElement.style.visibility = 'hidden';
       containerElement.style.backgroundImage = "url('fundo.png')";
       containerElement.style.backgroundColor = '#D2E6FF';
       bodyElement.style.height = "350px";
@@ -69,6 +69,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 const getEnviroment = url =>
-  url.startsWith('hm-painel') || url.startsWith('qa-painel') 
-  ? url.split('-')[0] 
-  : 'Produção';
+  url.startsWith('hm-painel') || url.startsWith('qa-painel')
+    ? url.split('-')[0]
+    : 'Produção';
